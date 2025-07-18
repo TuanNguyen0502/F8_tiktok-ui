@@ -8,6 +8,7 @@ import { SearchIcon } from "../../../Icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useDebounce } from "../../../../hooks";
+import request from "../../../../utils/request";
 
 const cx = classNames.bind(styles);
 
@@ -29,14 +30,15 @@ function Search() {
 
     setLoading(true);
 
-    fetch(
-      `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(
-        debounced
-      )}&type=less`
-    )
-      .then((res) => res.json())
+    request
+      .get("/users/search", {
+        params: {
+          q: debounced,
+          type: "less",
+        },
+      })
       .then((res) => {
-        setSearchResult(res.data);
+        setSearchResult(res.data.data);
         setLoading(false);
       })
       .catch(() => {
