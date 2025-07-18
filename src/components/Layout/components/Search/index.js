@@ -7,6 +7,7 @@ import styles from "./Search.module.scss";
 import { SearchIcon } from "../../../Icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { useDebounce } from "../../../../hooks";
 
 const cx = classNames.bind(styles);
 
@@ -16,10 +17,12 @@ function Search() {
   const [showResult, setShowResult] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const debounced = useDebounce(searchValue, 500);
+
   const inputRef = useRef();
 
   useEffect(() => {
-    if (!searchValue.trim()) {
+    if (!debounced) {
       setSearchResult([]);
       return;
     }
@@ -28,7 +31,7 @@ function Search() {
 
     fetch(
       `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(
-        searchValue
+        debounced
       )}&type=less`
     )
       .then((res) => res.json())
@@ -39,7 +42,7 @@ function Search() {
       .catch(() => {
         setLoading(false);
       });
-  }, [searchValue]);
+  }, [debounced]);
 
   const handleClear = () => {
     setSearchValue("");
@@ -81,7 +84,9 @@ function Search() {
             <FontAwesomeIcon icon={faCircleXmark} />
           </button>
         )}
-        {loading && <FontAwesomeIcon className={cx("loading")} icon={faSpinner} />}
+        {loading && (
+          <FontAwesomeIcon className={cx("loading")} icon={faSpinner} />
+        )}
 
         <button className={cx("search-btn")}>
           <SearchIcon />
