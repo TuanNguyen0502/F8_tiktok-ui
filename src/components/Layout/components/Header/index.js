@@ -85,6 +85,7 @@ function Header() {
       title: "Settings",
       to: "/settings",
     },
+    ...MENU_ITEMS,
     {
       icon: <FontAwesomeIcon icon={faSignOut} />,
       title: "Log out",
