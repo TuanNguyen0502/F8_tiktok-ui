@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import HeadlessTippy from "@tippyjs/react/headless";
-import { Wrapper as PopperWrapper } from "../../../Popper";
+import { Wrapper as PopperWrapper } from "../../../components/Popper";
 import AccountItem from "../AccountItem";
 import classNames from "classnames/bind";
 import styles from "./Search.module.scss";
-import { SearchIcon } from "../../../Icons";
+import { SearchIcon } from "../../../components/Icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { useDebounce } from "../../../../hooks";
-import request from "../../../../utils/request";
+import { useDebounce } from "../../../hooks";
+import request from "../../../utils/httpRequest";
 
 const cx = classNames.bind(styles);
 
